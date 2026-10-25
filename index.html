@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Engineer! Hana</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #080612;
+  color: #fff5fd;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: .15; }
+  to { opacity: 1; transform: scale(1.5); }
+}
+
+.glow {
+  position: fixed;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: .22;
+  pointer-events: none;
+}
+
+.glow.one {
+  background: #ff62c8;
+  top: 0;
+  left: -100px;
+}
+
+.glow.two {
+  background: #a66cff;
+  bottom: 0;
+  right: -100px;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  width: 92%;
+  max-width: 850px;
+  margin: auto;
+  padding: 40px 0 55px;
+}
+
+.tag {
+  display: inline-block;
+  color: #ff62c8;
+  border: 1px solid #ff62c866;
+  border-radius: 30px;
+  padding: 9px 16px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+}
+
+h1 {
+  font-size: clamp(32px, 7vw, 60px);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.gradient {
+  background: linear-gradient(
+    90deg, #ff75d2, #c29bff, #70e7ff
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  color: #bdb2d0;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.photo-frame {
+  width: 235px;
+  height: 285px;
+  margin: 0 auto 25px;
+  padding: 5px;
+  border-radius: 125px 125px 30px 30px;
+  background: linear-gradient(
+    140deg, #ff62c8, #a66cff, #70e7ff
+  );
+  animation: float 4s ease-in-out infinite,
+             frameGlow 3s infinite alternate;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 3px solid #080612;
+  border-radius: inherit;
+  display: block;
+}
+
+@keyframes float {
+  50% { transform: translateY(-9px); }
+}
+
+@keyframes frameGlow {
+  from { box-shadow: 0 0 18px #ff62c855; }
+  to { box-shadow: 0 0 38px #a66cffaa; }
+}
+
+.card {
+  max-width: 650px;
+  margin: 24px auto;
+  padding: 25px 22px;
+  border: 1px solid #ffffff20;
+  border-radius: 22px;
+  background: #ffffff09;
+  box-shadow: 0 12px 40px #0003;
+}
+
+h2 {
+  color: #ff9bdf;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+#typedMessage {
+  color: #e4d8ef;
+  line-height: 1.9;
+  min-height: 100px;
+}
+
+.section-title {
+  margin: 35px 0 18px;
+  color: #e8d5ff;
+  font-size: 23px;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.time-box {
+  min-width: 75px;
+  padding: 16px 12px;
+  border: 1px solid #a66cff55;
+  border-radius: 15px;
+  background: #a66cff0d;
+}
+
+.time-box strong {
+  display: block;
+  color: #70e7ff;
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.time-box span {
+  font-size: 11px;
+  color: #c9badb;
+}
+
+button {
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 22px;
+  margin: 8px 5px;
+  transition: .2s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 22px #ff62c866;
+}
+
+.primary {
+  color: white;
+  background: linear-gradient(100deg, #e34cae, #8656e9);
+}
+
+.secondary {
+  color: #f8dfff;
+  border: 1px solid #a66cff88;
+  background: #a66cff18;
+}
+
+#surprise, #secret {
+  display: none;
+}
+
+#surprise.show, #secret.show {
+  display: block;
+  animation: reveal .7s ease;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#secret {
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #ff62c80d;
+  border: 1px dashed #ff62c888;
+  color: #ffe2f5;
+  line-height: 1.9;
+}
+
+.heart {
+  position: fixed;
+  bottom: -30px;
+  z-index: 5;
+  pointer-events: none;
+  animation: rise 3.5s linear forwards;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-110vh) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+footer {
+  color: #9d91b1;
+  font-size: 12px;
+  margin-top: 35px;
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<main>
+  <div class="tag">A SPECIAL DAY • A SPECIAL PERSON</div>
+
+  <h1>
+    Happy Birthday,<br>
+    <span class="gradient">Engineer! Hana</span>
+  </h1>
+
+  <p class="subtitle">
+    Today is all about you ✨<br>
+    A little website made for your special day.
+  </p>
+
+  <div class="photo-frame">
+    <img src="hana.jpg" alt="Hana's Photo">
+  </div>
+
+  <div class="card">
+    <h2>Dear Hana 💗</h2>
+    <p id="typedMessage"></p>
+  </div>
+
+  <h2 class="section-title">🎂 Birthday Countdown</h2>
+
+  <div class="countdown">
+    <div class="time-box">
+      <strong id="days">--</strong><span>DAYS</span>
+    </div>
+    <div class="time-box">
+      <strong id="hours">--</strong><span>HOURS</span>
+    </div>
+    <div class="time-box">
+      <strong id="minutes">--</strong><span>MINUTES</span>
+    </div>
+    <div class="time-box">
+      <strong id="seconds">--</strong><span>SECONDS</span>
+    </div>
+  </div>
+
+  <p style="color:#9d91b1;font-size:12px;margin-top:12px">
+    Set Hana's birthday in the code.
+  </p>
+
+  <h2 class="section-title">Your Little Surprise 🎁</h2>
+
+  <p class="subtitle">Ready to open your surprise?</p>
+
+  <button class="primary" onclick="openSurprise()">
+    Open Your Surprise ✨
+  </button>
+
+  <section id="surprise" class="card">
+    <h2>🎉 HAPPY BIRTHDAY HANA! 🎉</h2>
+    <p style="color:#e4d8ef;line-height:1.9">
+      May your new year be filled with happiness,
+      success, beautiful memories, and dreams coming true.
+      Keep shining and always believe in yourself! 💖
+    </p>
+
+    <button class="secondary" onclick="openSecret()">
+      Open Your Secret Message 🔐
+    </button>
+
+    <div id="secret">
+      <h2>A Little Secret 💌</h2>
+      You deserve happiness, kindness, and beautiful things.
+      Never stop believing in yourself. Keep shining! 💗✨
+    </div>
+  </section>
+
+  <footer>
+    Made with 💖 and code • A little surprise for Hana
+  </footer>
+</main>
+<script>
+// Create animated stars
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 100; i++) {
+  const star = document.createElement("span");
+  star.className = "star";
+
+  const size = Math.random() * 3 + 1;
+  star.style.width = size + "px";
+  star.style.height = size + "px";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.animationDelay = Math.random() * 3 + "s";
+
+  stars.appendChild(star);
+}
+
+// Animated birthday message
+const message =
+  "Happy birthday, Hana! 💗 Wishing you a day full of joy, " +
+  "laughter, lovely surprises, and unforgettable memories. " +
+  "May every step bring you closer to your dreams. " +
+  "Keep shining and always believe in yourself! ✨";
+
+let index = 0;
+const typed = document.getElementById("typedMessage");
+
+function typeMessage() {
+  if (index < message.length) {
+    typed.textContent += message.charAt(index);
+    index++;
+    setTimeout(typeMessage, 45);
+  }
+}
+
+typeMessage();
+
+// Set Hana's birthday here.
+// Example: April 15 = month 4, day 15.
+const BIRTHDAY_MONTH = 1;
+const BIRTHDAY_DAY = 1;
+
+function updateCountdown() {
+  const now = new Date();
+  let year = now.getFullYear();
+
+  let birthday = new Date(
+    year,
+    BIRTHDAY_MONTH - 1,
+    BIRTHDAY_DAY
+  );
+
+  if (birthday <= now) {
+    birthday = new Date(
+      year + 1,
+      BIRTHDAY_MONTH - 1,
+      BIRTHDAY_DAY
+    );
+  }
+
+  const diff = birthday - now;
+
+  document.getElementById("days").textContent =
+    Math.floor(diff / 86400000);
+
+  document.getElementById("hours").textContent =
+    Math.floor((diff % 86400000) / 3600000);
+
+  document.getElementById("minutes").textContent =
+    Math.floor((diff % 3600000) / 60000);
+
+  document.getElementById("seconds").textContent =
+    Math.floor((diff % 60000) / 1000);
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Open birthday surprise
+function openSurprise() {
+  document.getElementById("surprise").classList.add("show");
+  document.getElementById("surprise").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  createHearts(30);
+}
+
+// Open secret message
+function openSecret() {
+  document.getElementById("secret").classList.toggle("show");
+  createHearts(15);
+}
+
+// Floating hearts
+function createHearts(count) {
+  const symbols = ["💗", "💖", "💕", "✨", "💜"];
+
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement("span");
+    heart.className = "heart";
+    heart.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (16 + Math.random() * 20) + "px";
+    heart.style.animationDelay = (Math.random() * 1.5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+  }
+}
+</script>
+
+</body>
+</html>
